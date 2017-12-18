@@ -1,3 +1,18 @@
+/*     Developed by Cristian Bottazzi
+       https://github.com/cristian1604
+        March 2012 - Revision: Dec 2017		         
+            cristian1604@educ.ar
+
+ This code obtain by argument a string and saves the
+ string encoded with the start bit, data, checksum and end bit
+ on a code128.txt file in the same dir of this executable
+
+ You are free to modify this code. Please, share the source and
+ the original developer name. Thank you!
+*/
+
+
+
 #include <iostream>
 #include <cstring>
 #include <cstdio>
@@ -7,7 +22,7 @@ using namespace std;
 int main(int argc, char *argv[]) {
     int pos = 1;
     int i = 1;
-    int checksum = 104;       // Verification char (104 to B norm)
+    int checksum = 104;       // Verification char (104 for the B norm)
     char _start_bit = 'Ñ';
     char _end_bit = 'Ó';
     char aux[50] = {'\0'};
@@ -15,7 +30,7 @@ int main(int argc, char *argv[]) {
     char str_conv[500] = {'\0'};
     char end_line = '\0';
 
-    cout<<"Code128 Encoder - Developed by Cristian Bottazzi\n  * March 2012 * Last revision: May 2015.\n   * Uploaded to GitHub 2017\n  http://github.com/cristian1604 - cbottazzi@ful.unl.edu.ar\n---------------------------------------------\n\n";
+    cout<<"Code128 Encoder - Developed by Cristian Bottazzi\n  * March 2012 * Last revision: Dec 2017.\n   * Uploaded to GitHub 2017\n  http://github.com/cristian1604 - cbottazzi@ful.unl.edu.ar\n---------------------------------------------\n\n";
     if (argc == 1) {
         cout<<" >>> Give me any string to encode!\n\n";
 		return 1;
