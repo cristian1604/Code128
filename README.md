@@ -1,26 +1,27 @@
 # Code128 Encoder
 
-This repo contains the algorithm to encode some text into **Code128 code set B**.
+This repo contains the algorithm to encode some text into **Code128 code set B** and the mathematic algorithm to calculate the checksum bit.
 
-The following algorithm was reached by reverse engineering. But since 2015 I use this algorithm and has worked very well.
+The following results was reached by reverse engineering in 2012. Since 2015 I use this algorithm in several commercial projects and it's worked very well.
+
 
 ### How the encoder works?
 
 Code128 is a high-density linear barcode symbology. It is used for alphanumeric or numeric-only barcodes. It can encode all 128 characters of ASCII and, by use of an extension symbol (FNC4), the Latin-1 characters defined in ISO/IEC 8859-1.
 
-A Code 128 barcode has six sections:
+A Code 128 barcode has four sections with two quiet sections:
 
   *  Quiet zone
   *  Start symbol
-  *  Encoded data
+  *  Data
   *  Check symbol
   *  Stop symbol
-  *  Final bar (often considered part of the stop symbol)
   *  Quiet zone
 
 The check symbol is calculated from a weighted sum (modulo 103) of all the symbols.
 
-### Why B norm?
+
+#### Why B norm?
 
 | Code set | Start char | Start ASCII code | Stop char | Stop ASCII code | Symbols supported |
 | ------ | ------ | ------ | ------ | ------ | ------ |
@@ -34,7 +35,7 @@ So, the B norm is more useful since can support uppercase, lowercase, numbers, s
 ### Algorithm
 
 At this point we have the following things:
- * Text to encode
+ * Text to encode (Data)
  * Start symbol
  * End symbol
 
@@ -44,8 +45,9 @@ The form is:
 
 <kbd>Start symbol</kbd><kbd>**Data**</kbd><kbd>Checksum</kbd><kbd>End symbol</kbd>
 
+
 #### Mathematics
-Using the weighted sum model, we sum each character subtracting 32 (so it's start from 0 to 95, the number of valid chars that can be represented by Code128-B)
+Using the weighted sum model, sum each character subtracting 32 (so it's start from 0 to 95, the number of valid chars that can be represented by Code128-B) and multiply by the position of each character. Finally add 104 to this number.
 
 In equation
 
@@ -60,11 +62,11 @@ Where:
 
 The next step is obtain the modulo (division remainder) between <img src="https://latex.codecogs.com/png.latex?\dpi{150}&space;\small&space;S_{p}" title="\small S_{p}" /> and `103`.
 
-<img src="https://latex.codecogs.com/png.latex?\dpi{150}&space;\small&space;R_{check}=(S_{p})MOD(103)" title="\small R_{check}=(S_{p})MOD(103)" />
+<img src="https://latex.codecogs.com/png.latex?\dpi{150}&space;\small&space;R_{check}=(S_{p})MOD(103)" title="\LARGE R_{check}=(S_{p})MOD(103)" />
 
 Where
 
- * <img src="https://latex.codecogs.com/png.latex?\dpi{150}&space;\small&space;R_{c}" title="\small R_{check}" /> is the remainder between <img src="https://latex.codecogs.com/png.latex?\dpi{150}&space;\small&space;\frac{S_{p}}{103}" title="\small \frac{S_{p}}{103}" />.
+ * <img src="https://latex.codecogs.com/png.latex?\dpi{150}&space;\tiny&space;R_{check}" title="\small R_{check}" /> is the remainder between <img src="https://latex.codecogs.com/png.latex?\dpi{150}&space;\tiny&space;\frac{S_{p}}{103}" title="\small \frac{S_{p}}{103}" />.
  * `MOD` is the mathematic expression to obtain the remainder, and no the division result.
 
 Finally, to obtain the ASCII code to the checksum bit, evaluate the <img src="https://latex.codecogs.com/png.latex?\dpi{150}&space;\small&space;R_{check}" title="\small R_{check}" /> result. If it's less than 95, then add 32. Otherwise add 105.
@@ -73,7 +75,7 @@ Finally, to obtain the ASCII code to the checksum bit, evaluate the <img src="ht
 
 Why we do that? Because this way avoid get undesired ASCII values (between 127 and 199), which are control chars and have not graphic representation.
 
-
+----
 
 
 #### Notes about the efficiency of the code
