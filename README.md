@@ -1,6 +1,6 @@
 # Code128 Encoder
 
-**Versión en español [aquí][https://github.com/cristian1604/Code128/blob/master/README_ES.md]**
+Versión en español [aquí][https://github.com/cristian1604/Code128/blob/master/README_ES.md]
 
 This repo contains an example algorithm to encode some text into **Code128 code set B** and the **mathematic algorithm** to calculate the checksum bit.
 
