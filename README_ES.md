@@ -1,6 +1,6 @@
 # Codificador Code128
 
-English version [here][https://github.com/cristian1604/Code128/blob/master/README.md]
+English version [here][link]
 
 Este repositorio contiene un ejemplo para codificar texto en **code128 norma B**. También se provee el **algoritmo matemático** para calcular el bit de paridad.
 
@@ -101,6 +101,9 @@ No pierda de vista que el código que se proporciona tiene fines educativos y ac
 El código y la documentación fueron desarrolladas por Cristian Bottazzi
 
 La tipografía no es de mi autoría.
+
+[//]: #References
+[link]: <https://github.com/cristian1604/Code128/blob/master/README.md>
 
 
 
