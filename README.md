@@ -1,5 +1,7 @@
 # Code128 Encoder
 
+**Versión en español [aquí][https://github.com/cristian1604/Code128/blob/master/README_ES.md]**
+
 This repo contains an example algorithm to encode some text into **Code128 code set B** and the **mathematic algorithm** to calculate the checksum bit.
 
 The following results was reached by reverse engineering in 2012. Since 2015 I use this algorithm (enhanced) in several commercial projects and it's worked very well.
@@ -75,16 +77,18 @@ Finally, to obtain the ASCII code to the checksum bit, evaluate the <img src="ht
 
 <img src="https://latex.codecogs.com/png.latex?\dpi{150}&space;\large&space;Bit_{c}=\left\{\begin{matrix}&space;R_{chek}&space;<&space;95&space;\rightarrow&space;R_{chek}&plus;32&space;\\&space;R_{chek}&space;\geqslant&space;95&space;\rightarrow&space;R_{chek}&plus;105&space;\end{matrix}\right." title="\large Bit_{c}=\left\{\begin{matrix} R_{chek} < 95 \rightarrow R_{chek}+32 \\ R_{chek} \geqslant 95 \rightarrow R_{chek}+105 \end{matrix}\right." />
 
-Why we do that? Because this way avoid get undesired ASCII values (between 127 and 199), which are control chars and have not graphic representation.
+Why do that? Because this way avoid get undesired ASCII values (between 127 and 199), which are control chars and have not graphic representation.
 
 ----
 
 
 #### Notes about the efficiency of the code
 
- * **Code as is**: The `code128.cpp` write in a txt file on disk the result of the encoded data. But it's very inefficient because the constant access to HDD generates latency. This method is only for demonstration
+ * **Code as is**: The `code128.cpp` writes in a txt file on disk the result of the encoded data. But it's very inefficient because the constant access to HDD generates latency.
 
- * **Improve it!**: This code allows a huge improvement. For example, instead copy bit to bit the string, yo can add separately the start, checksum and end bits. This reduce one order the execution from O(n²) to O(n). Remember: the code here provided is for demonstration :)
+ * **Improve it!**: This code allows a huge improvement. For example, instead copy bit to bit the string, yo can add separately the start, checksum and end bits. This reduce one order the execution from O(n²) to O(n).
+
+Remember: the code here provided is for demonstration :)
 
 
 ### About
