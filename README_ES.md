@@ -34,9 +34,9 @@ El símbolo de paridad está calculado mediante una suma ponderada (modulo 103) 
 
 | Code set | Inicio | Código ASCII inicio | Bit fin | Código ASCII fin | Símbolos soportados |
 | ------ | ------ | ------ | ------ | ------ | ------ |
-| A | Ð | 208 | Ò | 211 | 00 to 95 (0–9, A–Z and control codes), special characters, and FNC 1–4 |
-| A | Ñ | 209 | Ò | 211 | ASCII characters 32 to 127 (0–9, A–Z, a–z), special characters, and FNC 1–4 |
-| A | Ó | 210 | Ò | 211 | 00–99 (encodes two digits with a single code point) and FNC1 |
+| A | Ð | 208 | Ò | 211 | 00 a 95 (0–9, A–Z y códigos de control), caracteres especiales y FNC 1–4 |
+| A | Ñ | 209 | Ò | 211 | Caracteres ASCII del 32 al 127 (0–9, A–Z, a–z), caracteres especiales, y FNC 1–4 |
+| A | Ó | 210 | Ò | 211 | 00–99 (codifica dos dígitos en un único punto) y FNC1 |
 
 Es por ello que la norma B es más útil, ya que soporta mayúsculas, minúsculas, números y símbolos.
 
@@ -52,7 +52,7 @@ Pero es necesario hallar el bit de paridad (o símbolo de verificación). Cómo 
 
 Recordemos que la forma final debe ser:
 
-<kbd>Símbolo de inicio</kbd><kbd>**Dato**</kbd><kbd>Paridad</kbd><kbd>Símbolo de fin</kbd>
+<kbd>Inicio</kbd><kbd>**Dato**</kbd><kbd>**Paridad**</kbd><kbd>Fin</kbd>
 
 
 #### Matemática
@@ -82,9 +82,45 @@ Finalmente, para obtener el número del caracter ASCII que representará el bit 
 
 <img src="https://latex.codecogs.com/png.latex?\dpi{150}&space;\large&space;Bit_{c}=\left\{\begin{matrix}&space;R_{chek}&space;<&space;95&space;\rightarrow&space;R_{chek}&plus;32&space;\\&space;R_{chek}&space;\geqslant&space;95&space;\rightarrow&space;R_{chek}&plus;105&space;\end{matrix}\right." title="\large Bit_{c}=\left\{\begin{matrix} R_{chek} < 95 \rightarrow R_{chek}+32 \\ R_{chek} \geqslant 95 \rightarrow R_{chek}+105 \end{matrix}\right." />
 
-¿Por qué hacemos esto? Porque de este modo evitamos caer en valores ASCII no deseados. Éstos son los caracteres comprendidos entre 127 y 199, que no poseen ninguna representación gráfica.
+¿Por qué hacer esto? Porque de este modo se evita obtener códigos ASCII no deseados. Éstos son los caracteres comprendidos entre 127 y 199, que no poseen ninguna representación gráfica.
 
 ----
+
+### Ejemplo
+
+El ejemplo es uno que originalmente armé para un blog que tuve hace un tiempo llamado [Binarios][binarios]. Aquí transcribo:
+
+Codificaremos la palabra `Binari-OS` en code128, variante `B`. Para ello ya se ha visto que la forma básica del armado es el siguiente:
+<kbd>Inicio</kbd><kbd>**Dato**</kbd><kbd>**Paridad**</kbd><kbd>Fin</kbd>
+
+
+   * [INICIO] = Ñ ó ASCII 209
+   * [FIN] = Ó ó ASCII 211
+   * Dato: `Binari-OS`
+
+Para hallar el único dato que queda, se debe comenzar obteniendo la correspondencia entre caracteres y su código ASCII. Aplicar la suma ponderada a estos valores y obtener el valor de esa sumatoria:
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\left.\begin{matrix}&space;B&space;&&space;\rightarrow&space;&&space;66&space;\\&space;i&space;&&space;\rightarrow&space;&&space;105&space;\\&space;n&space;&&space;\rightarrow&space;&&space;110&space;\\&space;a&space;&&space;\rightarrow&space;&&space;96&space;\\&space;r&space;&&space;\rightarrow&space;&&space;114&space;\\&space;i&space;&&space;\rightarrow&space;&&space;105&space;\\&space;-&space;&&space;\rightarrow&space;&&space;45&space;\\&space;O&space;&&space;\rightarrow&space;&&space;79&space;\\&space;S&space;&&space;\rightarrow&space;&&space;83&space;\end{matrix}\right\}&space;104&plus;\sum_{i=1}^{9}(a_{i}-32)*i=2552" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\left.\begin{matrix}&space;B&space;&&space;\rightarrow&space;&&space;66&space;\\&space;i&space;&&space;\rightarrow&space;&&space;105&space;\\&space;n&space;&&space;\rightarrow&space;&&space;110&space;\\&space;a&space;&&space;\rightarrow&space;&&space;96&space;\\&space;r&space;&&space;\rightarrow&space;&&space;114&space;\\&space;i&space;&&space;\rightarrow&space;&&space;105&space;\\&space;-&space;&&space;\rightarrow&space;&&space;45&space;\\&space;O&space;&&space;\rightarrow&space;&&space;79&space;\\&space;S&space;&&space;\rightarrow&space;&&space;83&space;\end{matrix}\right\}&space;104&plus;\sum_{i=1}^{9}(a_{i}-32)*i=2552" title="\left.\begin{matrix} B & \rightarrow & 66 \\ i & \rightarrow & 105 \\ n & \rightarrow & 110 \\ a & \rightarrow & 96 \\ r & \rightarrow & 114 \\ i & \rightarrow & 105 \\ - & \rightarrow & 45 \\ O & \rightarrow & 79 \\ S & \rightarrow & 83 \end{matrix}\right\} 104+\sum_{i=1}^{9}(a_{i}-32)*i=2552" /></a>
+
+
+Luego este valor se divide por `103` y obtenemos el **resto**.
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\frac{2552}{103}=&space;24&space;(mod&space;\rightarrow&space;80)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\frac{2552}{103}=&space;24&space;(mod&space;\rightarrow&space;80)" title="\frac{2552}{103}= 24 (mod \rightarrow 80)" /></a>
+
+Finalmente, realizamos la última comprobación:  `80 < 95`, por lo que se debe sumar 32.
+
+`32 + 80 = 112`
+
+Observando la tabla ASCII, el caracter `112` corresponde a `p`.
+
+Por lo que finalmente el código quedará compuesto como:
+
+<kbd>Ñ</kbd><kbd>Binari-OS</kbd><kbd>p</kbd><kbd>Ó</kbd>
+
+ó `ÑBinari-OSpÓ`
+
+Si a este texto se le aplica la fuente code128.ttf provista en este mismo repositorio podrá ser leído por cualquier escáner de códigos de barra o teléfono móvil con la app correspondiente.
+
 
 
 #### Notas acerca de la eficiencia del código propuesto
@@ -104,6 +140,7 @@ La tipografía no es de mi autoría.
 
 [//]: #References
 [link]: <https://github.com/cristian1604/Code128/blob/master/README.md>
+[binarios]: <https://web.archive.org/web/20140111080144/http://binari-os.com.ar:80/index.php/cs-computacion/122-generar-codigos-de-barra-con-el-estandar-code128>
 
 
 
