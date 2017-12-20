@@ -119,8 +119,7 @@ Por lo que finalmente el código quedará compuesto como:
 
 ó `ÑBinari-OSpÓ`
 
-Si a este texto se le aplica la fuente code128.ttf provista en este mismo repositorio podrá ser leído por cualquier escáner de códigos de barra o teléfono móvil con la app correspondiente.
-
+Si a este texto se le aplica la fuente `code128.ttf` provista en este mismo repositorio podrá ser leído por cualquier escáner de códigos de barra o teléfono móvil con la app correspondiente.
 
 
 #### Notas acerca de la eficiencia del código propuesto
