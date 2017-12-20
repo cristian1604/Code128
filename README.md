@@ -81,6 +81,41 @@ Why do that? Because this way avoid get undesired ASCII values (between 127 and 
 
 ----
 
+### Example
+
+This is an example that I wrote to my old blog [Binarios][binarios] on 2012.
+
+The idea is calculate the checksum bit of the word `Binari-OS` (binary and "OS" in spanish) using the standard `code128-B`. Remember, the parts in the codification string are:
+<kbd>Start</kbd><kbd>**Data**</kbd><kbd>**Checksum**</kbd><kbd>End</kbd>
+
+   * `Start` is a Ñ (ASCII 209)
+   * `End` = is an Ó or (ASCII 211)
+   * `Data`: `Binari-OS`
+
+So, to calculate the checksum bit, we have to obtain the weighted sum with the values of each char.
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\left.\begin{matrix}&space;B&space;&&space;\rightarrow&space;&&space;66&space;\\&space;i&space;&&space;\rightarrow&space;&&space;105&space;\\&space;n&space;&&space;\rightarrow&space;&&space;110&space;\\&space;a&space;&&space;\rightarrow&space;&&space;96&space;\\&space;r&space;&&space;\rightarrow&space;&&space;114&space;\\&space;i&space;&&space;\rightarrow&space;&&space;105&space;\\&space;-&space;&&space;\rightarrow&space;&&space;45&space;\\&space;O&space;&&space;\rightarrow&space;&&space;79&space;\\&space;S&space;&&space;\rightarrow&space;&&space;83&space;\end{matrix}\right\}&space;104&plus;\sum_{i=1}^{9}(a_{i}-32)*i=2552" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\left.\begin{matrix}&space;B&space;&&space;\rightarrow&space;&&space;66&space;\\&space;i&space;&&space;\rightarrow&space;&&space;105&space;\\&space;n&space;&&space;\rightarrow&space;&&space;110&space;\\&space;a&space;&&space;\rightarrow&space;&&space;96&space;\\&space;r&space;&&space;\rightarrow&space;&&space;114&space;\\&space;i&space;&&space;\rightarrow&space;&&space;105&space;\\&space;-&space;&&space;\rightarrow&space;&&space;45&space;\\&space;O&space;&&space;\rightarrow&space;&&space;79&space;\\&space;S&space;&&space;\rightarrow&space;&&space;83&space;\end{matrix}\right\}&space;104&plus;\sum_{i=1}^{9}(a_{i}-32)*i=2552" title="\left.\begin{matrix} B & \rightarrow & 66 \\ i & \rightarrow & 105 \\ n & \rightarrow & 110 \\ a & \rightarrow & 96 \\ r & \rightarrow & 114 \\ i & \rightarrow & 105 \\ - & \rightarrow & 45 \\ O & \rightarrow & 79 \\ S & \rightarrow & 83 \end{matrix}\right\} 104+\sum_{i=1}^{9}(a_{i}-32)*i=2552" /></a>
+
+
+At this moment we have the result: `2552`. Now we need the **remainder** between the result and `103`.
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\frac{2552}{103}=&space;24&space;(mod&space;\rightarrow&space;80)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\frac{2552}{103}=&space;24&space;(mod&space;\rightarrow&space;80)" title="\frac{2552}{103}= 24 (mod \rightarrow 80)" /></a>
+
+Finally, compare the result:  `80 < 95`, so we have to add 32 to 80.
+
+`32 + 80 = 112`
+
+If we take a look on the ASCII table, the char number `112` it's a `p`.
+
+So, the final encoded string `Binari-OS` will be:
+
+<kbd>Ñ</kbd><kbd>Binari-OS</kbd><kbd>p</kbd><kbd>Ó</kbd>
+
+or `ÑBinari-OSpÓ`
+
+Using this string (you can copy&paste) with the font `code128.ttf` provided in this repository, you can test quickly with any barcode scanner or your mobile phone. Test it!
+
+
 
 #### Notes about the efficiency of the code
 
